@@ -1,9 +1,12 @@
-import './App.css';
-import Home from './pages/Home';
+import React from "react";
+import RoutesApp from "./routes";
+import { AuthProvider } from "./contexts/auth";
 
-function App() {
+const App = () =>{
   return (
-    <Home />
+    <AuthProvider>
+      <RoutesApp /> 
+    </AuthProvider>
   );
 }
 
