@@ -1,0 +1,7 @@
+@media screen and (max-width: 991px) {
+    .all-btn{
+        margin-right: .5em;
+        margin-left: .5em;
+        margin-top: .5rem;
+    }
+}
