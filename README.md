@@ -1,4 +1,4 @@
-# React Tutorial
+# TODO-LIST
 
 - this is a project that was made for you to create your own to-do list.
 
