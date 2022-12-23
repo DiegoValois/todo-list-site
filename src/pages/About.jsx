@@ -8,8 +8,8 @@ export default function About() {
     const page = urlParams.get("page");
 
     const navigate = useNavigate();
-    const goToHomePage = () => {
-    navigate('/');
+    const goToTodo = () => {
+    navigate('/todo');
   }
 
   return (
@@ -17,8 +17,8 @@ export default function About() {
             <Button 
             variant="contained" 
             style={{ display: "inline-block"}} 
-            onClick={goToHomePage}>
-            Back To Home</Button>
+            onClick={goToTodo}>
+            Back To Todo List</Button>
 
             <div style={{ display: "flex" , justifyContent: "center"  }}>
                 <p style={{ fontSize: "25px"}}>{page}</p>

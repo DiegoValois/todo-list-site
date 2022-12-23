@@ -38,7 +38,6 @@ export default function TodoItem({ todo, deleteTodo, editTodo, setTodos, todos }
 
   return (
     <div>
-      
       <EditTodoDialog open={openDialog} dialogHandler={dialogHandler} todo={todo} editTodo={editTodo}/>
       <Paper style={{padding: "0.5em 0em"}}>
         <ListItem

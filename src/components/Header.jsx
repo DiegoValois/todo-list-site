@@ -8,8 +8,10 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import './styles.css';
 import Logo from "../images/red-logo.png"; 
 import useAuth from "../hooks/useAuth";
+import Message from "./message/index";
 
 export default function Header() {
+  const [openDialog, setOpenDialog] = useState(false);
   const [showBegin, setShowBegin] = useState(true);
   const [showLeave, setShowLeave] = useState(false);
 
@@ -17,10 +19,19 @@ export default function Header() {
 
   const navigate = useNavigate();
 
-  function showOrHide () {
-  setShowLeave(true);
-  setShowBegin(false);
+  // function showOrHide () {
+  // setShowLeave(true);
+  // setShowBegin(false);
+  // }
+
+  // if (useAuth){
+  //   document.getElementsById("list").onClick = () => goToTodo()
+  // }
+
+  const dialogHandler = () => {
+    setOpenDialog(!openDialog);
   }
+
 
   const goToHome = () => {
     navigate('/');
@@ -42,8 +53,8 @@ export default function Header() {
     navigate('/signup');
   }
 
-
   return (
+    <div>
     <Navbar collapseOnSelect expand="lg" bg="white" variant="white">
       <Container>
         <Navbar.Brand onClick={() => goToHome()}
@@ -57,7 +68,7 @@ export default function Header() {
             <NavDropdown title="Functionalities" id="collasible-nav-dropdown" class="dropdown"
              style={{marginLeft:"1em"}}>
               <NavDropdown.Item href="#action/3.1" variant="dropdown-item">Forms</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2"variant="dropdown-item">
+              <NavDropdown.Item onClick={() => goToSignin()} variant="dropdown-item" id="list">
                 Todo List
               </NavDropdown.Item>
             </NavDropdown>
@@ -78,12 +89,17 @@ export default function Header() {
             { showLeave? <Nav.Link onClick={() => [signout()]} class="leave"
             style={{marginLeft: ".9em"}}>Leave session</Nav.Link> : null}
             <Button variant="outline-secondary button all-btn" 
-            style={{marginRight: ".5em", marginLeft: ".5em"}}>Contact</Button>
+            style={{marginRight: ".5em", marginLeft: ".5em"}}
+            onClick={dialogHandler}
+            >Contact</Button>
             <Button variant="dark all-btn"
             onClick={() => goToSignup()}>To start</Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    { openDialog?
+    <Message open={openDialog} setOpen={setOpenDialog} dialogHandler={dialogHandler}/>  :null}
+    </div>
   );
 }

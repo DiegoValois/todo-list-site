@@ -1,11 +1,13 @@
 import "./styles.css";
-import React from "react";
+import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 
+
 export default function Home() {
+
   const navigate = useNavigate();
 
   const goToSignup = () => {
