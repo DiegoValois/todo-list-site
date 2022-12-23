@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -15,7 +15,7 @@ export default function Header() {
   const [showBegin, setShowBegin] = useState(true);
   const [showLeave, setShowLeave] = useState(false);
 
-  const { signout } = useAuth();
+  const { isUserConnected, signout } = useAuth();
 
   const navigate = useNavigate();
 
@@ -46,12 +46,18 @@ export default function Header() {
   }
 
   const goToSignin = () => {
-    navigate('/signin');
-  }
+    if (!isUserConnected()) {
+      navigate('/signin');
+    }
+	}
 
   const goToSignup = () => {
     navigate('/signup');
   }
+
+	useEffect(() => {
+		setShowBegin(!isUserConnected());
+	}, [isUserConnected()])
 
   return (
     <div>
@@ -84,11 +90,20 @@ export default function Header() {
             </NavDropdown>
           </Nav>
           <Nav>
-            { showBegin? <Nav.Link onClick={() => goToSignin()} class="begin"
-            style={{marginLeft: ".9em"}}>Log in</Nav.Link> :null}
-            { showLeave? <Nav.Link onClick={() => [signout()]} class="leave"
-            style={{marginLeft: ".9em"}}>Leave session</Nav.Link> : null}
-            <Button variant="outline-secondary button all-btn" 
+							{showBegin &&
+								<Nav.Link className="begin"
+													style={{marginLeft: ".9em"}}
+													onClick={goToSignin}
+								>Log in</Nav.Link>
+							}
+
+							{!showBegin &&
+								<Nav.Link className="leave"
+													style={{marginLeft: ".9em"}}
+													onClick={() => [signout()]}
+								>Leave session</Nav.Link>
+							}
+            <Button variant="outline-secondary button all-btn"
             style={{marginRight: ".5em", marginLeft: ".5em"}}
             onClick={dialogHandler}
             >Contact</Button>

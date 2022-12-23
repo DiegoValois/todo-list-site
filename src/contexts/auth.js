@@ -18,9 +18,13 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const isUserConnected = () => {
+    const userToken = localStorage.getItem("user_token");
+    return !!userToken;
+  }
+
   const signin = (email, password) => {
     const usersStorage = JSON.parse(localStorage.getItem("users_bd"));
-
     const hasUser = usersStorage?.filter((user) => user.email === email);
 
     if (hasUser?.length) {
@@ -28,13 +32,14 @@ export const AuthProvider = ({ children }) => {
         const token = Math.random().toString(36).substring(2);
         localStorage.setItem("user_token", JSON.stringify({ email, token }));
         setUser({ email, password });
+
         return;
-      } else {
-        return "E-mail ou senha incorretos";
       }
-    } else {
-      return "Usuário não cadastrado";
+
+      return "E-mail ou senha incorretos";
     }
+
+    return "Usuário não cadastrado";
   };
 
   const signup = (email, password) => {
@@ -66,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, signed: !!user, signin, signup, signout }}
+      value={{ user, signed: !!user, isUserConnected, signin, signup, signout }}
     >
       {children}
     </AuthContext.Provider>
