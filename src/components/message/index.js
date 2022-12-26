@@ -7,18 +7,42 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TextField } from '@mui/material';
 import Box from '@mui/material/Box';
+import emailjs from '@emailjs/browser';
 
 const Transition = React.forwardRef(function Transition(props,ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
-export default function Message( setOpen, open, dialogHandler ) {
+export default function Message({ open, dialogHandler }) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
 
-    const textHandler = () => {
-        setOpen(false);
+    function sendEmail(e){
+        e.preventDefault();
+
+        if(name === '' || email === '' || message === ''){
+            alert("Fill in all fields");
+            return;
+        }
+
+        const templateParams = {
+            from_name: name,
+            message: message,
+            email: email
+        }
+
+        emailjs.send("service_is4h1eq", "template_nw36dje", templateParams, "7QWxv70aDaj9FYXWb")
+        .then((response) =>{
+            console.log("EMAIL ENVIADO", response.status, response.text)
+            setName('');
+            setMessage('');
+            setEmail('');
+        }, (err) =>{
+            console.log("ERROR: ", err);
+        })
+
+        dialogHandler();
     }
 
     return (
@@ -59,7 +83,7 @@ export default function Message( setOpen, open, dialogHandler ) {
             </Box>
             <DialogActions>
                 <Button onClick={dialogHandler}>Cancel</Button>
-                <Button onClick={textHandler}>Send</Button>
+                <Button onClick={sendEmail}>Send</Button>
             </DialogActions>
         </Dialog>
   )
